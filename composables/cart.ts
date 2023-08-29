@@ -11,11 +11,14 @@ export interface CartResponse{
     carts: Cart[]
 }
 
+export const useCart = () => useState<Cart|null>('cart')
+
 export const useServerCart= async () => {
     const cart = useCart();
+    const user = useUser();
 
     const getCart = async () => {
-        const url='https://dummyjson.com/carts/user/1';
+        const url='https://dummyjson.com/carts/user/'+(user.value?user.value.id:0);
         const { data } = await useLazyFetch<CartResponse>(url);
         cart.value=data.value?data?.value?.carts[0] as Cart:null
     }

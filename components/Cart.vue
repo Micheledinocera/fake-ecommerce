@@ -1,29 +1,24 @@
 <template>
-    <div :class="['cart-overlay',{show:showCart}]" @click="showCart=false">
-        <div class="cart-container" @click.stop="">
-            <div class="loading" v-if="pendingCart">
-                <Loader/>
-            </div>
-            <div class="items-list" v-else-if="products.length>0">
-                <div class="cart-item" v-for="cartItem in products">
-                    <div class="delete" @click="()=>removeProductFromCart(cartItem.id)"> X </div>
-                    <div class="title"> {{ cartItem.title }} </div>
-                    <div class="price"> {{ cartItem.discountedPrice }}€ </div>
-                </div>
-                <div class="total">
-                    <div class="title"> Total </div>
-                    <div class="price"> {{ cart?.discountedTotal }}€ </div>
-                </div>
-            </div>
-            <div class="empty" v-else> 
-                <div class="label"> Carrello vuoto </div>
-            </div>
+    <div class="loading" v-if="pendingCart">
+        <Loader/>
+    </div>
+    <div class="items-list" v-else-if="products.length>0">
+        <div class="cart-item" v-for="cartItem in products">
+            <div class="delete" @click="()=>removeProductFromCart(cartItem.id)"> X </div>
+            <div class="title"> {{ cartItem.title }} </div>
+            <div class="price"> {{ cartItem.discountedPrice }}€ </div>
         </div>
+        <div class="total">
+            <div class="title"> Total </div>
+            <div class="price"> {{ cart?.discountedTotal }}€ </div>
+        </div>
+    </div>
+    <div class="empty" v-else> 
+        <div class="label"> Empty Cart </div>
     </div>
 </template>
 
 <script setup lang="ts">
-const showCart=useShowCart();
 const cart=useCart();
 const { deleteCart } = await useServerCart();
 const pendingCart= ref(false)
@@ -39,64 +34,39 @@ const removeProductFromCart=async (productId:number)=>{
 </script>
 
 <style scoped lang="sass">
-$cart-width:300px
-.cart-overlay
-    position: fixed
-    top: 0
-    left: 0vw
-    width: 100vw
-    height: 100vh
-    z-index: -1
-    background-color: rgba(0,0,0,0)
-    cursor: pointer
-    transition: background-color 0.25s ease-in-out
-    &.show
-        background-color: rgba(0,0,0,0.25)
-        z-index: 1
-        .cart-container
-            left: calc(100vw - $cart-width)
-    .cart-container
-        position: absolute
-        background-color: white
-        width: $cart-width
-        left: 100vw
-        left: 100vw
-        height: 100vh
-        cursor: auto
-        transition: left 0.5s ease-in-out
-        .cart-item,.total
-            display: flex
-            margin: 8px 10px
-            .delete
-                color: palevioletred
-                font-weight: 600
-                cursor: pointer
-                display: flex
-                align-items: center
-                &:hover
-                    color: darkred
-            .title
-                margin-left: 10px
-            .price
-                margin-left: auto
-        .total
-            border-top: solid 1px lightgray
-            margin-top: 20px
-            padding-top: 20px
-            font-weight: 600
-        .empty
-            height: 100%
-            background-image: url("/assets/imgs/empty-cart.png")
-            background-size: contain
-            background-repeat: no-repeat
-            background-position: center
-            .label
-                text-align: center
-                padding-top: calc(30vh)
-        .loading
-            background-color: darkseagreen
-            display: grid
-            height: 100%
-            span 
-                margin: auto
+.cart-item,.total
+    display: flex
+    margin: 8px 10px
+    .delete
+        color: palevioletred
+        font-weight: 600
+        cursor: pointer
+        display: flex
+        align-items: center
+        &:hover
+            color: darkred
+    .title
+        margin-left: 10px
+    .price
+        margin-left: auto
+.total
+    border-top: solid 1px lightgray
+    margin-top: 20px
+    padding-top: 20px
+    font-weight: 600
+.empty
+    height: 100%
+    background-image: url("/assets/imgs/empty-cart.png")
+    background-size: contain
+    background-repeat: no-repeat
+    background-position: center
+    .label
+        text-align: center
+        padding-top: calc(30vh)
+.loading
+    background-color: darkseagreen
+    display: grid
+    height: 100%
+    span 
+        margin: auto
 </style>

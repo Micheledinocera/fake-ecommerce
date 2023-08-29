@@ -1,49 +1,23 @@
 <template>
-    <!-- <div @click="redirect()"> {{headerLabel}} </div> -->
     <div class="header">
         <div class="logo" @click="()=>router.push({name:RouterNames.HOME})"> </div>
-        <div class="user" @click="()=>router.push({name:RouterNames.LOGIN})"> </div>
-        <div class="cart" @click="showCart=true"> <div class="counter" v-if="cart?cart.products.length>0:false"> {{cart?.products.length}} </div> </div>
+        <div class="user" v-if="!user" @click="()=>router.push({name:RouterNames.LOGIN})"> </div>
+        <div class="user logged" @click="()=>showRightPanel('user')" v-else> <img :src="user.image"> </div>
+        <div class="cart" v-if="user" @click="()=>showRightPanel('cart')"> <div class="counter" v-if="cart?cart.products.length>0:false"> {{cart?.products.length}} </div> </div>
     </div>
 </template>
 
 <script setup lang="ts">
-// import { CartResponse } from 'composables/cart';
-
-
 const router = useRouter();
 const cart = useCart();
-const showCart = useShowCart();
-// const cart= ref([]);
-const { getCart } = await useServerCart();
-// const isHome= computed(()=>{
-//     return router.currentRoute.value.name==RouterNames.HOME
-// })
+const user = useUser();
+const showPanel = useShowPanel();
+const rightPanelType = usePanelType();
 
-// const headerLabel = computed(() => {
-//   return isHome?"Home":RouterNames.LOGIN;
-// })
-
-// const redirect = ()=>{
-//     if(isHome) router.push({name:RouterNames.LOGIN})
-//     else router.push({name:RouterNames.HOME})
-// }
-
-// const getCartAction=async ()=>{
-    // pendingProduct.value=true;
-    // const data=await getCart();
-    // cart.value=data.value?data?.value?.carts[0].products:[]
-    // pendingProduct.value=false;
-// }
-
-// onMounted(()=>{getCartAction();});
-
-// getCartAction();
-
-onMounted(()=>{getCart();});
-
-getCart();
-
+const showRightPanel=(panelType:"user"|"cart")=>{
+    rightPanelType.value=panelType;
+    showPanel.value=true;
+}
 </script>
 
 <style scoped lang="sass">
@@ -64,6 +38,12 @@ getCart();
         &.user
             background-image: url("/assets/imgs/account_circle.svg")
             margin-left: auto
+            &.logged
+                background-image: none
+                img
+                    width: 100%
+                    height: 100%
+                    object-fit: contain
         &.cart
             background-image: url("/assets/imgs/cart.svg")
             margin-left: 20px

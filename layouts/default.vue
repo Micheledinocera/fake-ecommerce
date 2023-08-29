@@ -1,6 +1,6 @@
 <template>
     <div>
-      <Cart />
+      <RightPanel />
       <Header />
       <slot />
       <Footer />
