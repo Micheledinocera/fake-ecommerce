@@ -18,7 +18,7 @@
                         <div class="price"> {{ product?.price }}€ </div>
                         <div class="special-price"> {{ specialPrice }}€ </div>
                     </div>
-                    <div class="add-to-cart" @click="addToCart">
+                    <div v-if="user" class="add-to-cart" @click="addToCart">
                         <div class="button-container">
                             <Loader v-if="pendingAddToCart"></Loader>
                             <span v-else> ADD TO CART </span>
@@ -35,6 +35,7 @@ import { Product } from 'composables/product';
 
 let route=useRoute();
 let cart=useCart();
+let user=useUser();
 let pendingProduct=ref(true);
 let pendingAddToCart=ref(false);
 let product=ref({}) as Ref<Product | undefined | null>;
