@@ -1,4 +1,5 @@
 const path = require('path');
+let development = process.env.NODE_ENV !== 'production'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -16,5 +17,8 @@ export default defineNuxtConfig({
     output: {
       publicDir: path.join(__dirname, '/docs')
     }
+  },
+  app: {
+    baseURL: development? "/" : "/fake-ecommerce/"
   }
 })
