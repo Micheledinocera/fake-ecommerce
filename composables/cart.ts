@@ -21,12 +21,12 @@ export const useServerCart= async () => {
         return data
     }
 
-    const updateCart = async (productId:number,cartId:number) => {
+    const updateCart = async (productId:number,cartId:number,quantity=1 as number) => {
         const objectToSend={
             "merge":true,
             "products":[{
                 id:productId,
-                quantity:1
+                quantity:quantity
             }]
         }
         const url='https://dummyjson.com/carts/'+cartId;

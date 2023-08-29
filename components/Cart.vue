@@ -1,8 +1,12 @@
 <template>
     <div :class="['cart-overlay',{show:showCart}]" @click="showCart=false">
         <div class="cart-container" @click.stop="">
-            <div class="items-list" v-if="products.length>0">
+            <div class="loading" v-if="pendingCart">
+                <Loader/>
+            </div>
+            <div class="items-list" v-else-if="products.length>0">
                 <div class="cart-item" v-for="cartItem in products">
+                    <div class="delete" @click="()=>removeProductFromCart(cartItem.id)"> X </div>
                     <div class="title"> {{ cartItem.title }} </div>
                     <div class="price"> {{ cartItem.discountedPrice }}€ </div>
                 </div>
@@ -21,8 +25,17 @@
 <script setup lang="ts">
 const showCart=useShowCart();
 const cart=useCart();
+const { updateCart } = await useServerCart();
+const pendingCart= ref(false)
 
-const products=computed(()=>cart.value?cart.value.products:[])
+const products=computed(()=>cart.value?cart.value.products.filter(product=>product.quantity>0):[])
+
+const removeProductFromCart=async (productId:number)=>{
+    pendingCart.value=true;
+    await updateCart(productId,cart.value?cart.value.id:0,0);
+    pendingCart.value=false;
+}
+
 </script>
 
 <style scoped lang="sass">
@@ -54,6 +67,16 @@ $cart-width:300px
         .cart-item,.total
             display: flex
             margin: 8px 10px
+            .delete
+                color: palevioletred
+                font-weight: 600
+                cursor: pointer
+                display: flex
+                align-items: center
+                &:hover
+                    color: darkred
+            .title
+                margin-left: 10px
             .price
                 margin-left: auto
         .total
@@ -70,4 +93,10 @@ $cart-width:300px
             .label
                 text-align: center
                 padding-top: calc(30vh)
+        .loading
+            background-color: darkseagreen
+            display: grid
+            height: 100%
+            span 
+                margin: auto
 </style>

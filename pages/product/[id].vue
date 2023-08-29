@@ -12,8 +12,8 @@
             </div>
             <div class="right-container">
                 <div class="info-container">
-                    <div class="brand">{{product?.brand}}</div>
                     <div class="title">{{product?.title}}</div>
+                    <div class="brand">{{product?.brand}}</div>
                     <div class="price-container">
                         <div class="price"> {{ product?.price }}€ </div>
                         <div class="special-price"> {{ specialPrice }}€ </div>
@@ -70,11 +70,11 @@ singleProductAction();
             padding-left: 10px
             width: 100%
             text-align: center
-            .brand
+            .title
                 font-weight: 600
                 color: black
                 font-size: 50px
-            .title
+            .brand
                 font-weight: 600
                 font-size: 40px
                 color: gray
