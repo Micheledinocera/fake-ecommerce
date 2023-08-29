@@ -19,6 +19,10 @@ export default defineNuxtConfig({
     }
   },
   app: {
-    baseURL: development? "/" : "/fake-ecommerce/"
+    baseURL: "/fake-ecommerce/"
+    // baseURL: development? "/" : "/fake-ecommerce/"
+  },
+  generate: {
+    fallback: "404.html"
   }
 })
