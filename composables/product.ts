@@ -1,29 +1,38 @@
-export interface IProduct {
-    name: string;
-    isActive?: boolean;
+export interface Product {
+    quantity: number;
+    discountedPrice: number;
+    id: number;
+    title: string;
+    description: string;
+    price: number;
+    discountPercentage: number;
+    stock: number;
+    brand: number;
+    category: string;
+    images: string[];
+    thumbnail: string;
 }
 
-export default class Product {
-    name: string;
-    isActive: boolean | undefined;
-  
-    constructor(data?: IProduct) {
-      this.name = data ? data.name : "";
-      this.isActive =  data && data.isActive ? data.isActive : true;
-    }
+export interface ProductsResponse{
+    limit:number,
+    total:number,
+    skip:number,
+    products:Product[]
 }
 
-export const useProducts= () => {
-    const products = ref([]) as Ref<Product[]>;
+export const useServerProduct= async () => {
 
-    const addProduct = (name : string)=> products.value.push(new Product({name:name}));
-    const toggleActiveProductByIndex = (index:number) => products.value[index].isActive=!products.value[index].isActive;
-    const activeProducts = computed(() =>products.value.filter(product=>product.isActive))
-
-    return{
-        products,
-        addProduct,
-        toggleActiveProductByIndex,
-        activeProducts
+    const getSingleProduct = async (id : string|string[]) => {
+        const url='https://dummyjson.com/products/'+id;
+        const { data } = await useLazyFetch<Product>(url);
+        return data
     }
+
+    const getListingProducts = async (limit : string|string[],skip : string|string[]) => {
+        const url='https://dummyjson.com/products?limit='+limit+'&skip='+skip;
+        const { data } = await useLazyFetch<ProductsResponse>(url);
+        return data
+    }
+
+    return{ getSingleProduct,getListingProducts }
 }

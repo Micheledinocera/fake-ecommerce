@@ -81,3 +81,4 @@
         >div
             @include skeleton-loader
 </style>
+composables/product

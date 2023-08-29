@@ -50,4 +50,4 @@ watch(page, () => {
 .listing-container
     display: flex
     flex-flow: wrap
-</style>
+</style>composables/product

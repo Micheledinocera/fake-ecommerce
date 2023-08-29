@@ -1,9 +1,9 @@
 <template>
     <Head>
-        <Title> {{product.title}} </Title>
+        <Title> {{product?.title}} </Title>
     </Head>
     <template v-if="pendingProduct">
-        CARICAMENTO
+        Loading
     </template>
     <template v-else>
         <div class="product-container" >
@@ -31,7 +31,7 @@
 </template>
 
 <script setup lang="ts">
-import { Product } from 'composables/serverProduct';
+import { Product } from 'composables/product';
 
 let route=useRoute();
 let cart=useCart();
@@ -105,4 +105,4 @@ singleProductAction();
                     display: flex
                     span
                         margin: auto
-</style>
+</style>composables/product

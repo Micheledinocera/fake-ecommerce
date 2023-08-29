@@ -1,1 +1,0 @@
-import{f as s,s as n,o as t,c,a as _,_ as a}from"./entry.4c184a8f.js";const i={class:"container"},r=s({__name:"login",setup(d){const e=n(),o=()=>{e.push({name:"index"})};return(l,p)=>(t(),c("div",i,[_("div",{class:"login-button",onClick:o}," Login ")]))}});const m=a(r,[["__scopeId","data-v-9d4c9928"]]);export{m as default};
