@@ -1,6 +1,6 @@
 <template>
     <Head>
-        <Title> {{product?.title}} </Title>
+        <Title> {{product.title}} </Title>
     </Head>
     <template v-if="pendingProduct">
         CARICAMENTO

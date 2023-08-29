@@ -1,18 +1,22 @@
 import { Product } from "./serverProduct";
 
 export interface Cart {
-    products: Product[]
+    products: Product[];
+    total:number
+    discountedTotal: number;
 }
 
 export interface CartResponse{
-    carts: any[]
+    carts: Cart[]
 }
 
 export const useServerCart= async () => {
+    const cart = useCart();
 
     const getCart = async () => {
         const url='https://dummyjson.com/carts/user/1';
         const { data } = await useLazyFetch<CartResponse>(url);
+        cart.value=data.value?data?.value?.carts[0] as Cart:null
         return data
     }
 

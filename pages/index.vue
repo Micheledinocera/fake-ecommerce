@@ -1,6 +1,6 @@
 <template>
     <Head>
-        <Title> {{tempSinglePost?.title}} </Title>
+        <Title> FAKE ECOMMERCE </Title>
     </Head>
     <div class="container"> 
         <!-- Add Product
@@ -40,33 +40,33 @@
 </template>
 
 <script setup lang="ts">
-import { Post } from 'composables/posts';
+// import { Post } from 'composables/posts';
 
-const tempName=ref("");
-let tempId=ref(1);
-let tempSinglePost: Ref<Post | null>;
-let singlePostPending=ref(true);
+// const tempName=ref("");
+// let tempId=ref(1);
+// let tempSinglePost: Ref<Post | null>;
+// let singlePostPending=ref(true);
 
-const { products,addProduct,toggleActiveProductByIndex,activeProducts } = useProducts();
-const { posts,pending: postsPending,getSinglePost } = await usePosts();
+// const { products,addProduct,toggleActiveProductByIndex,activeProducts } = useProducts();
+// const { posts,pending: postsPending,getSinglePost } = await usePosts();
 
-watch(tempId, () => { 
-    singlePostAction(); 
-});
+// watch(tempId, () => { 
+//     singlePostAction(); 
+// });
 
-const singlePostAction=()=>{
-    singlePostPending.value=true;
-    getSinglePost(tempId)
-    .then(response=> tempSinglePost=response )
-    .finally(()=>singlePostPending.value=false)
-}
+// const singlePostAction=()=>{
+//     singlePostPending.value=true;
+//     getSinglePost(tempId)
+//     .then(response=> tempSinglePost=response )
+//     .finally(()=>singlePostPending.value=false)
+// }
 
-const addButtonCLick = ()=>{
-    addProduct(tempName.value);
-    tempName.value="";
-}
+// const addButtonCLick = ()=>{
+//     addProduct(tempName.value);
+//     tempName.value="";
+// }
 
-singlePostAction()
+// singlePostAction()
 
 </script>
 

@@ -1,5 +1,6 @@
 <template>
     <div>
+      <Cart />
       <Header />
       <slot />
       <Footer />

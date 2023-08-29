@@ -3,17 +3,18 @@
     <div class="header">
         <div class="logo" @click="()=>router.push({name:RouterNames.HOME})"> </div>
         <div class="user" @click="()=>router.push({name:RouterNames.LOGIN})"> </div>
-        <div class="cart"> <div class="counter" v-if="cart.length>0"> {{cart.length}} </div> </div>
+        <div class="cart" @click="showCart=true"> <div class="counter" v-if="cart?cart.products.length>0:false"> {{cart?.products.length}} </div> </div>
     </div>
 </template>
 
 <script setup lang="ts">
-import { CartResponse } from 'composables/cart';
+// import { CartResponse } from 'composables/cart';
 
 
 const router = useRouter();
-// const cart = useCart();
-const cart= ref([]);
+const cart = useCart();
+const showCart = useShowCart();
+// const cart= ref([]);
 const { getCart } = await useServerCart();
 // const isHome= computed(()=>{
 //     return router.currentRoute.value.name==RouterNames.HOME
@@ -28,14 +29,19 @@ const { getCart } = await useServerCart();
 //     else router.push({name:RouterNames.HOME})
 // }
 
-const getCartAction=async ()=>{
+// const getCartAction=async ()=>{
     // pendingProduct.value=true;
-    const data=await getCart();
-    cart.value=data?.value?.carts[0].products
+    // const data=await getCart();
+    // cart.value=data.value?data?.value?.carts[0].products:[]
     // pendingProduct.value=false;
-}
+// }
 
-getCartAction();
+// onMounted(()=>{getCartAction();});
+
+// getCartAction();
+
+onMounted(()=>{getCart();});
+getCart();
 
 </script>
 
@@ -61,8 +67,8 @@ getCartAction();
             background-image: url("/assets/imgs/cart.svg")
             margin-left: 20px
             .counter
-                margin-top: -8px
-                border-radius: 8px
+                margin-top: -6px
+                border-radius: 10px
                 margin-left: 56px
                 background-color: lightcoral
                 width: fit-content

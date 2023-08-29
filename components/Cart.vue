@@ -1,0 +1,73 @@
+<template>
+    <div :class="['cart-overlay',{show:showCart}]" @click="showCart=false">
+        <div class="cart-container" @click.stop="">
+            <div class="items-list" v-if="products.length>0">
+                <div class="cart-item" v-for="cartItem in products">
+                    <div class="title"> {{ cartItem.title }} </div>
+                    <div class="price"> {{ cartItem.discountedPrice }}€ </div>
+                </div>
+                <div class="total">
+                    <div class="title"> Total </div>
+                    <div class="price"> {{ cart?.discountedTotal }}€ </div>
+                </div>
+            </div>
+            <div class="empty" v-else> 
+                <div class="label"> Carrello vuoto </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script setup lang="ts">
+const showCart=useShowCart();
+const cart=useCart();
+
+const products=computed(()=>cart.value?cart.value.products:[])
+</script>
+
+<style scoped lang="sass">
+$cart-width:300px
+.cart-overlay
+    position: fixed
+    top: 0
+    left: 0vw
+    width: 100vw
+    height: 100vh
+    z-index: -1
+    background-color: rgba(0,0,0,0)
+    cursor: pointer
+    transition: background-color 0.25s ease-in-out
+    &.show
+        background-color: rgba(0,0,0,0.25)
+        z-index: 1
+        .cart-container
+            left: calc(100vw - $cart-width)
+    .cart-container
+        position: absolute
+        background-color: white
+        width: $cart-width
+        left: 100vw
+        left: 100vw
+        height: 100vh
+        cursor: auto
+        transition: left 0.5s ease-in-out
+        .cart-item,.total
+            display: flex
+            margin: 8px 10px
+            .price
+                margin-left: auto
+        .total
+            border-top: solid 1px lightgray
+            margin-top: 20px
+            padding-top: 20px
+            font-weight: 600
+        .empty
+            height: 100%
+            background-image: url("/assets/imgs/empty-cart.png")
+            background-size: contain
+            background-repeat: no-repeat
+            background-position: center
+            .label
+                text-align: center
+                padding-top: calc(30vh)
+</style>

@@ -1,7 +1,7 @@
 <template>
     <div :class="['card',{'skeleton':isSkeleton}]">
         <template v-if="isSkeleton">
-            <Image :src="''" :alt="''" error="''" imageClass=""/>
+            <Image :src="null" :alt="''" error="''" imageClass=""/>
             <div class="skeleton"></div>
             <div class="title"> </div>
             <div class="brand"> </div>

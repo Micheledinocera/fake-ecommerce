@@ -1,5 +1,6 @@
-import { Product } from "./serverProduct"
+import { Cart } from "./cart"
 
 export const usePage = () => useState<number>('page', () => 1)
 export const usePageLimit = () => useState<number>('pageLimit')
-export const useCart = () => useState<Product[]>('cart', ()=>[])
+export const useShowCart = () => useState<boolean>('showCart', ()=>false)
+export const useCart = () => useState<Cart|null>('cart')
