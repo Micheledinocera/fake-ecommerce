@@ -2,7 +2,8 @@ import { Product } from "./serverProduct";
 
 export interface Cart {
     products: Product[];
-    total:number
+    total:number;
+    id:number;
     discountedTotal: number;
 }
 
@@ -20,7 +21,7 @@ export const useServerCart= async () => {
         return data
     }
 
-    const updateCart = async (productId:number) => {
+    const updateCart = async (productId:number,cartId:number) => {
         const objectToSend={
             "merge":true,
             "products":[{
@@ -28,11 +29,12 @@ export const useServerCart= async () => {
                 quantity:1
             }]
         }
-        const url='https://dummyjson.com/carts/user/1';
-        const { data } = await useLazyFetch<CartResponse>(url,{
-            method: 'POST',
+        const url='https://dummyjson.com/carts/'+cartId;
+        const { data } = await useLazyFetch<Cart>(url,{
+            method: 'PUT',
             body: objectToSend
         });
+        cart.value=data.value?data?.value as Cart:null
         return data
     }
 

@@ -18,6 +18,12 @@
                         <div class="price"> {{ product?.price }}€ </div>
                         <div class="special-price"> {{ specialPrice }}€ </div>
                     </div>
+                    <div class="add-to-cart" @click="addToCart">
+                        <div class="button-container">
+                            <Loader v-if="pendingAddToCart"></Loader>
+                            <span v-else> ADD TO CART </span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -25,22 +31,31 @@
 </template>
 
 <script setup lang="ts">
-    import { Product } from 'composables/serverProduct';
+import { Product } from 'composables/serverProduct';
 
-    let route=useRoute();
-    let pendingProduct=ref(true);
-    let product=ref({}) as Ref<Product | undefined | null>;
-    
-    const specialPrice=computed(()=> ((product?.value?.price??1)*(1-(product?.value?.discountPercentage??0)/100)).toFixed(2))
-    const { getSingleProduct } = await useServerProduct();
+let route=useRoute();
+let cart=useCart();
+let pendingProduct=ref(true);
+let pendingAddToCart=ref(false);
+let product=ref({}) as Ref<Product | undefined | null>;
 
-    const singleProductAction=async ()=>{
-        pendingProduct.value=true;
-        product=await getSingleProduct(route.params.id) as Ref<Product>;
-        pendingProduct.value=false;
-    }
+const specialPrice=computed(()=> ((product?.value?.price??1)*(1-(product?.value?.discountPercentage??0)/100)).toFixed(2))
+const { getSingleProduct } = await useServerProduct();
+const { updateCart } = await useServerCart();
 
-    singleProductAction();
+const singleProductAction=async ()=>{
+    pendingProduct.value=true;
+    product=await getSingleProduct(route.params.id) as Ref<Product>;
+    pendingProduct.value=false;
+}
+
+const addToCart=async ()=>{
+    pendingAddToCart.value=true;
+    await updateCart(product.value?product.value.id:0,cart.value?cart.value.id:0);
+    pendingAddToCart.value=false;
+}
+
+singleProductAction();
 </script>
 
 <style scoped lang="sass">
@@ -76,5 +91,18 @@
                     margin-left: 10px
                 >div
                     margin: auto
-                
+            .add-to-cart
+                margin-top: 30px
+                >.button-container
+                    background-color: darkolivegreen
+                    color: white
+                    font-weight: 600
+                    cursor: pointer
+                    padding: 8px 14px
+                    border-radius: 6px
+                    width: 130px
+                    margin: auto
+                    display: flex
+                    span
+                        margin: auto
 </style>
