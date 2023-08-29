@@ -25,14 +25,14 @@
 <script setup lang="ts">
 const showCart=useShowCart();
 const cart=useCart();
-const { updateCart } = await useServerCart();
+const { deleteCart } = await useServerCart();
 const pendingCart= ref(false)
 
 const products=computed(()=>cart.value?cart.value.products.filter(product=>product.quantity>0):[])
 
 const removeProductFromCart=async (productId:number)=>{
     pendingCart.value=true;
-    await updateCart(productId,cart.value?cart.value.id:0,0);
+    await deleteCart(productId,cart.value?cart.value.id:0);
     pendingCart.value=false;
 }
 

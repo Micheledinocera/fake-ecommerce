@@ -41,6 +41,7 @@ const { getCart } = await useServerCart();
 // getCartAction();
 
 onMounted(()=>{getCart();});
+
 getCart();
 
 </script>

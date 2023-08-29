@@ -18,13 +18,12 @@ export const useServerCart= async () => {
         const url='https://dummyjson.com/carts/user/1';
         const { data } = await useLazyFetch<CartResponse>(url);
         cart.value=data.value?data?.value?.carts[0] as Cart:null
-        return data
     }
 
     const updateCart = async (productId:number,cartId:number,quantity=1 as number) => {
+        var products=cart.value?cart.value.products:[]
         const objectToSend={
-            "merge":true,
-            "products":[{
+            products:[...products,{
                 id:productId,
                 quantity:quantity
             }]
@@ -35,8 +34,20 @@ export const useServerCart= async () => {
             body: objectToSend
         });
         cart.value=data.value?data?.value as Cart:null
-        return data
     }
 
-    return{ getCart,updateCart }
+    const deleteCart = async (productId:number,cartId:number) => {
+        var products=(cart.value?cart.value.products:[]).filter(product=>product.id!=productId)
+        const objectToSend={
+            products:products
+        }
+        const url='https://dummyjson.com/carts/'+cartId;
+        const { data } = await useLazyFetch<Cart>(url,{
+            method: 'PUT',
+            body: objectToSend
+        });
+        cart.value=data.value?data?.value as Cart:null
+    }
+
+    return{ getCart,updateCart,deleteCart }
 }
