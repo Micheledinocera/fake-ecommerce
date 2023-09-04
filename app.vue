@@ -1,9 +1,9 @@
 <template>
   <div :class="['layout-container',$route.meta.layout]">
     <NuxtLayout>
-      <perfect-scrollbar id="layout-content">  
+      <NuxtScrollbar id="layout-content">  
         <NuxtPage/>
-      </perfect-scrollbar>
+      </NuxtScrollbar>
     </NuxtLayout>
   </div>
 </template>

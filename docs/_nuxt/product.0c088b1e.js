@@ -1,0 +1,1 @@
+import{u as c}from"./fetch.1a0566f2.js";const a=async()=>({getSingleProduct:async t=>{const s="https://dummyjson.com/products/"+t,{data:o}=await c(s,"$IhgmYIMdpX");return o},getListingProducts:async(t,s)=>{const o="https://dummyjson.com/products?limit="+t+"&skip="+s,{data:n}=await c(o,"$PFk6gS2nW0");return n}});export{a as u};

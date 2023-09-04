@@ -20,5 +20,8 @@ export default defineNuxtConfig({
   },
   app: {
     baseURL: development? "/" : "/fake-ecommerce/"
-  }
+  },
+  modules: [
+    '@davestewart/nuxt-scrollbar'
+  ]
 })
